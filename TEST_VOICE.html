@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Voice</title>
+</head>
+<body>
+    <h1>Test Text-to-Speech</h1>
+    <button onclick="testVoice()">Click to Test Voice</button>
+    <p id="status"></p>
+
+    <script>
+        function testVoice() {
+            const status = document.getElementById('status');
+            
+            // Check if speech synthesis is supported
+            if (!('speechSynthesis' in window)) {
+                status.textContent = '❌ Speech synthesis NOT supported in your browser';
+                return;
+            }
+            
+            status.textContent = '✓ Speech synthesis is supported. Testing...';
+            
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+            
+            // Create utterance
+            const utterance = new SpeechSynthesisUtterance('Hello! This is a test. Can you hear me?');
+            utterance.lang = 'en-US';
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            
+            utterance.onstart = () => {
+                status.textContent = '🔊 Speaking now... (check your volume!)';
+            };
+            
+            utterance.onend = () => {
+                status.textContent = '✓ Finished speaking. Did you hear it?';
+            };
+            
+            utterance.onerror = (event) => {
+                status.textContent = '❌ Error: ' + event.error;
+            };
+            
+            // Speak
+            window.speechSynthesis.speak(utterance);
+        }
+        
+        // Auto-test on load
+        window.onload = () => {
+            const status = document.getElementById('status');
+            if ('speechSynthesis' in window) {
+                status.textContent = '✓ Speech synthesis is available. Click button to test.';
+            } else {
+                status.textContent = '❌ Speech synthesis NOT supported';
+            }
+        };
+    </script>
+</body>
+</html>
