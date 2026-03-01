@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Student Learning Buddy"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = True
-    
+    #changes done
     # Security
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
